@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Acompanhamento Atividade Física</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .table th, .table td {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <a class="navbar-brand" href="/">Acompanhamento</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#academia" data-toggle="tab" class="clickable">Academias</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#pessoa-fisica" data-toggle="tab" class="clickable">Alunos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#pessoa-juridica" data-toggle="tab" class="clickable">Professores</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#modalidades" data-toggle="tab" class="clickable">Modalidades</a>
+        </li>      
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#frequencia" data-toggle="tab" class="clickable">Frequências</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#ocorrencia" data-toggle="tab" class="clickable">Ocorrências</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#cidades" data-toggle="tab" class="clickable">Cidades</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="home">
+        <h1 class="mb-4">Bem-vindo ao Sistema de Acompanhamento Atividade Física</h1>
+        <p>Este sistema foi desenvolvido para facilitar a gestão das informações acadêmicas. Você pode acessar informações sobre:</p>
+        <ul>
+          <li>Alunos</li>
+          <li>Professores</li>
+          <li>Modalidades</li>
+          <li>Cidades</li>
+          <li>Frequências</li>
+          <li>Ocorrências</li>
+          <li>Academias</li>
+        </ul>
+        <p>Escolha uma das opções no menu para começar a explorar o sistema.</p>
+      </div>
+
+      <div class="tab-pane fade" id="pessoa-fisica">
+        <h1 class="mb-4">Alunos</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">CPF</th>
+              <th scope="col">Email</th>
+              <th scope="col">Cidade</th>
+              <th scope="col">Ocupação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pessoa_fisica in pessoas_fisicas %}
+            <tr>
+              <td>{{ pessoa_fisica.nome }}</td>
+              <td>{{ pessoa_fisica.cpf }}</td>
+              <td>{{ pessoa_fisica.email }}</td>
+              <td>
+                {% if pessoa_fisica.cidade %}
+                  {{ pessoa_fisica.cidade.nome }}
+                {% else %}
+                  Não informada
+                {% endif %}
+              </td>
+              <td>{{ pessoa_fisica.ocupacao }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5">Nenhuma pessoa física cadastrada.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="pessoa-juridica">
+        <h1 class="mb-4">Professores</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">CPF</th>
+              <th scope="col">Email</th>
+              <th scope="col">Cidade</th>
+              <th scope="col">Ocupação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pessoa_juridica in pessoas_juridicas %}
+            <tr>
+              <td>{{ pessoa_juridica.razao_social }}</td>
+              <td>{{ pessoa_juridica.cpf }}</td>
+              <td>{{ pessoa_juridica.email }}</td>
+              <td>
+                {% if pessoa_juridica.cidade %}
+                  {{ pessoa_juridica.cidade.nome }}
+                {% else %}
+                  Não informada
+                {% endif %}
+              </td>
+              <td>{{ pessoa_juridica.ocupacao }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5">Nenhuma pessoa jurídica cadastrada.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="modalidades">
+        <h1 class="mb-4">Modalidades</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for modalidade in modalidades %}
+            <tr>
+              <td>{{ modalidade.nome }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="1">Nenhuma modalidade cadastrada.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="frequencia">
+        <h1 class="mb-4">Frequência</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Plano de Treino</th>
+              <th scope="col">Exercício</th>
+              <th scope="col">Pessoa</th>
+              <th scope="col">N° Faltas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for frequencia in frequencias %}
+            <tr>
+              <td>{{ frequencia.plano_de_treino.nome }}</td>
+              <td>{{ frequencia.exercicio.nome }}</td>
+              <td>{{ frequencia.pessoa.nome }}</td>
+              <td>{{ frequencia.numero_faltas }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4">Nenhuma frequência cadastrada.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="ocorrencia">
+        <h1 class="mb-4">Ocorrências</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Descrição</th>
+              <th scope="col">Plano de Treino</th>
+              <th scope="col">Data</th>
+              <th scope="col">Exercício</th>
+              <th scope="col">Pessoa</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ocorrencia in ocorrencias %}
+            <tr>
+              <td>{{ ocorrencia.descricao }}</td>
+              <td>{{ ocorrencia.plano_de_treino.nome }}</td>
+              <td>{{ ocorrencia.data }}</td>
+              <td>{{ ocorrencia.exercicio.nome }}</td>
+              <td>{{ ocorrencia.pessoa.nome }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5">Nenhuma ocorrência cadastrada.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="cidades">
+        <h1 class="mb-4">Cidades</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">UF</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for cidade in cidades %}
+            <tr>
+              <td>{{ cidade.nome }}</td>
+              <td>{{ cidade.uf.sigla }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="2">Nenhuma cidade cadastrada.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="academia">
+        <h1 class="mb-4">Academias</h1>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Cidade</th>
+              <th scope="col">CNPJ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for academia in academias %}
+            <tr>
+              <td>{{ academia.razao_social }}</td>
+              <td>{{ academia.cidade.nome }}</td>
+              <td>{{ academia.cnpj }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="3">Nenhuma academia cadastrada.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
